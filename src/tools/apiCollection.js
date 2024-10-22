@@ -78,6 +78,8 @@ const api = {
     GET_COMMENT_NEW:"http://localhost:3000/comment/new",
     //收藏的歌手
     SUBSCRIBED_ARTIST: "http://localhost:3000/artist/sublist",
+    //收藏歌手
+    SUBSCRIBE_ARTIST:"http://localhost:3000/artist/sub",
     //收藏的专辑
     SUBSCRIBED_ALBUM: "http://localhost:3000/album/sublist",
     //------------------------------网易云API--------------------------------

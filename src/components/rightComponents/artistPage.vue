@@ -9,7 +9,7 @@
         <img :src="artist.picUrl" alt="">
       </div>
       <span id="ARPageMainArName">{{artist.name}}</span>
-      <button>收藏</button>
+      <button @click="collectArtist(artist.id,artist.followed?0:1)">{{artist.followed?"已收藏":"收藏"}}</button>
       <span>单曲数:{{artist.musicSize}}</span>
       <br>
       <span>专辑数:{{artist.albumSize}}</span>
@@ -33,6 +33,7 @@ import api from "@/tools/apiCollection";
 import {useSongStore} from "@/store/songStore";
 import pushingTools from "@/tools/pushingTools";
 import notification from "@/tools/notification";
+import apiCollection from "@/tools/apiCollection";
 
 const songStore = useSongStore();
 const route = useRoute()
@@ -55,13 +56,31 @@ const getArInfo = (id) => {
     }else {
       notification.ERROR_INFO("获取歌手信息失败")
     }
-  }).catch((err) => {
+  }).catch(() => {
     notification.ERROR_INFO("获取歌手信息失败")
   }).finally(() => {
     loading.value = false
   })
 }
 
+//收藏歌手
+const collectArtist = (id, t) => {
+  axios.get(`${apiCollection.SUBSCRIBE_ARTIST}?id=${id}&t=${t}`).then(res => {
+    if(res.data.code === 200){
+      if(t) {
+        notification.SUCCESS_INFO("收藏成功")
+        artist.value.followed = true
+      } else {
+        notification.SUCCESS_INFO("取消收藏")
+        artist.value.followed = false
+      }
+    } else {
+      notification.ERROR_INFO("操作失败")
+    }
+  }).catch(() => {
+    notification.ERROR_INFO("操作失败")
+  })
+}
 //播放歌曲
 const playMusic = (id) => {
   songStore.updateCurSong(id)

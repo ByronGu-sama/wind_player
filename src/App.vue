@@ -775,10 +775,7 @@ watch(() => inputVal.value,(newVal) => {
     },300)
   }else {
     suggestionTimer = setTimeout(() => {
-      for (let i in songSuggestionList){
-        // eslint-disable-next-line no-unused-vars
-        i = undefined
-      }
+      songSuggestionList = {}
       resultListIsVisible.value = false
     },300)
   }
@@ -802,16 +799,23 @@ watch(() => songStore.getCurSong().value.lyric,(next) => {
 })
 
 //动态获取当前歌曲信息
-watch(() => songStore.songHasLoaded, (n) => {
+watch(() => songStore.songHasLoaded, () => {
   playSong()
 },{
   deep: true
 })
 
 //获取评论
-watch(() => songMovingWindowTop.value,(next) => {
-  if (next === 70){
+watch(() => songStore.curSong.id,(n) => {
+  if (n){
     getComments(songStore.getCurSong().value.id)
+  }
+})
+
+//id清空时重置播放条
+watch(() => songStore.curSong.id, (n) => {
+  if(!n) {
+    durationBarWidth.value = 0
   }
 })
 

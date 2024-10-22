@@ -8,7 +8,7 @@
     <p>歌手</p>
     <p>专辑</p>
   </div>
-  <el-scrollbar max-height="400px" @click="closeList()" @scroll="infiniteScroll">
+  <el-scrollbar max-height="400px" @scroll="infiniteScroll">
     <div class="searchResultPage-resultList" v-for="(song,index) in resultList.songs" :key="index" @dblclick="songStore.updateCurSong(song.id)">
 
       <div class="searchResultPage-resultList-name">
